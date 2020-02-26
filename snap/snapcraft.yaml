@@ -40,22 +40,11 @@ parts:
     - bin/
     organize:
       mo: bin/mo
-  # tmate-edge-daemon:
-  #   plugin: dump
-  #   source: bin
-  #   after: [tmate]
-  #   organize:
-  #     tmate-edge-daemon: bin/
 
 apps:
   tmate-edge:
     command: bin/tmate -F -f $SNAP_DATA/tmate.conf
     daemon: simple
-    # need systemd activation support
-    # https://github.com/prometheus/node_exporter/issues/1622
-    # sockets: 
-    #   web:
-    #     listen-stream: "[::]:9100"
     plugs:
     - network-bind
     - time-control
