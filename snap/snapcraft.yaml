@@ -3,7 +3,7 @@ summary: tmate service to run on edge and gain access to your machine.
 description: |
   This snap run a tmate daemon that connect to a server with a key and namedsession.
 license: Apache-2.0
-confinement: devmode
+confinement: strict
 base: core18
 # adopt-info: tmate
 version: git
