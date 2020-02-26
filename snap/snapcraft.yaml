@@ -1,0 +1,63 @@
+name: tmate-edge
+summary: tmate service to run on edge and gain access to your machine.
+description: |
+  This snap run a tmate daemon that connect to a server with a key and namedsession.
+license: Apache-2.0
+confinement: devmode
+base: core18
+# adopt-info: tmate
+version: git
+grade: stable
+
+parts:
+  libssh:
+    plugin: cmake
+    source: https://www.libssh.org/files/0.9/libssh-0.9.3.tar.xz
+  tmate:
+    after:
+      - libssh
+    plugin: autotools
+    source: https://github.com/tmate-io/tmate.git
+    source-type: git
+    source-tag: 2.4.0
+    build-packages: 
+    - libevent-dev
+    - libncurses-dev
+    - libmsgpack-dev
+    - pkg-config
+    stage-packages:
+    - libevent-2.1-6
+    - libncurses5
+    - libmsgpackc2
+  mo:
+    plugin: dump
+    source: https://github.com/tests-always-included/mo.git
+    source-type: git
+    source-tag: 2.1.0
+    prime:
+    - bin/
+    organize:
+      mo: bin/mo
+  # tmate-edge-daemon:
+  #   plugin: dump
+  #   source: bin
+  #   after: [tmate]
+  #   organize:
+  #     tmate-edge-daemon: bin/
+
+apps:
+  tmate-edge:
+    command: bin/tmate -F -f $SNAP_DATA/tmate.conf
+    daemon: simple
+    # need systemd activation support
+    # https://github.com/prometheus/node_exporter/issues/1622
+    # sockets: 
+    #   web:
+    #     listen-stream: "[::]:9100"
+    plugs:
+    - network-bind
+    - time-control
+    environment:
+      LANGUAGE: "C.UTF-8"
+      LANG: "C.UTF-8"
+      LC_ALL: "C.UTF-8"

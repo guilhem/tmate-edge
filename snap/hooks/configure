@@ -1,0 +1,34 @@
+#!/bin/bash
+
+export API_KEY=$(snapctl get api-key)
+export SESSION_NAME=$(snapctl get session-name)
+export SERVER_HOST=$(snapctl get server-host)
+export SERVER_PORT=$(snapctl get server-port)
+export SERVER_RSA_FINGERPRINT=$(snapctl get server-rsa-fingerprint)
+export SERVER_ED25519_FINGERPRINT=$(snapctl get server-ed25519-fingerprint)
+
+## source mo function
+. "$SNAP"/bin/mo
+
+cat << EOF | mo > "$SNAP_DATA"/tmate.conf
+{{#API_KEY}}
+set tmate-api-key "{{API_KEY}}"
+{{/API_KEY}}
+{{#SESSION_NAME}}
+set tmate-session-name "{{SESSION_NAME}}"
+{{/SESSION_NAME}}
+{{#SERVER_HOST}}
+set -g tmate-server-host "{{SERVER_HOST}}"
+{{/SERVER_HOST}}
+{{#SERVER_PORT}}
+set -g tmate-server-port {{SERVER_PORT}}
+{{/SERVER_PORT}}
+{{#SERVER_RSA_FINGERPRINT}}
+set -g tmate-server-rsa-fingerprint "{{SERVER_RSA_FINGERPRINT}}"
+{{/SERVER_RSA_FINGERPRINT}}
+{{#SERVER_ED25519_FINGERPRINT}}
+set -g tmate-server-ed25519-fingerprint "{{SERVER_ED25519_FINGERPRINT}}"
+{{/SERVER_ED25519_FINGERPRINT}}
+EOF
+
+snapctl restart tmate-edge
