@@ -1,5 +1,7 @@
 # tmate-edge
 
+[![Snap Status](https://build.snapcraft.io/badge/guilhem/tmate-edge.svg)](https://build.snapcraft.io/user/guilhem/tmate-edge)
+
 run tmate on edge
 
 ## Why
