@@ -24,6 +24,8 @@ parts:
     - libevent-dev
     - libncurses-dev
     - libmsgpack-dev
+    - zlib1g-dev
+    - libssl-dev
     - pkg-config
     stage-packages:
     - libevent-2.1-6
